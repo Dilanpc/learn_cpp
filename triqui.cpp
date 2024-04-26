@@ -1,4 +1,6 @@
 #include <iostream>
+#include <array>
+#include "myStrings.h"
 
 char matrix[3][3] = {{' ',' ',' '},{' ',' ',' '},{' ',' ',' '}};
 
@@ -72,6 +74,35 @@ bool is_win(char matrix[3][3], char turno){
 }
 
 
+bool validMove(int fila, int colum, char matrix[3][3]){
+    if (fila < 0 || fila > 2 || colum < 0 || colum > 2){
+        return false;
+    }
+    return matrix[fila][colum] == ' ';
+}
+
+
+std::array<int, 2> get_move(char matrix[3][3], char& turno){
+    std::array<int, 2> pos;
+    std::string txt;
+
+    std::cout << "Ingrese fila, columa: "; std::getline(std::cin, txt);
+    std::vector<std::string> datos = split(txt, ',', false);
+
+    pos[0] = std::stoi(datos[0]) -1;
+    pos[1] = std::stoi(datos[1]) -1;
+
+    if (validMove(pos[0], pos[1], matrix)){
+        update(matrix, pos[0], pos[1], turno);
+    }else {
+        std::cout << "Movimiento inválido" << std::endl;
+        return get_move(matrix, turno);
+    }
+
+    return pos;
+}
+
+
 
 int main(int argc, char const *argv[])
 {
@@ -81,7 +112,7 @@ int main(int argc, char const *argv[])
         cambio(turno);
         show(matrix);
 
-        move(matrix, turno);
+        get_move(matrix, turno);
 
     };
 
