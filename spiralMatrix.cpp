@@ -130,10 +130,15 @@ int main(int argc, const char* argv[])
 
     // Limits
     int size = numbers.size();
+    int squareRoot = sqrt(size);
+    if (squareRoot * squareRoot != size) {
+        cout << "Error: The number of numbers is not a perfect square." << endl;
+        return 1;
+    }
     int top = 0;
-    int buttom = pow(size, 0.5); 
+    int buttom = squareRoot;
     int left = 0;
-    int right = buttom;
+    int right = squareRoot;
 
     int index = 0;
     int pos[2] = {0,0};
@@ -147,7 +152,6 @@ int main(int argc, const char* argv[])
             matrix[pos[0]][pos[1]] = numbers[index];
             index++;
             dir + pos;
-            cout << pos[0] << " " << pos[1] << endl;
         }
         dir - pos; // Undo last move
         dir.changeLimit(top, buttom, left, right);
